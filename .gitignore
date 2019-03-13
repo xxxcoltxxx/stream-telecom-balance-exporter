@@ -1,0 +1,4 @@
+.env
+.idea/
+/dist
+/stream_telecom_balance_exporter

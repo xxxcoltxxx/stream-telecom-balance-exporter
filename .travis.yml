@@ -1,0 +1,37 @@
+language: go
+sudo: false
+matrix:
+  include:
+    - go: 1.11.x
+env:
+  - GO111MODULE=on
+before_install:
+  - go get github.com/mitchellh/gox
+script:
+  - |-
+    gox \
+      -output="build/{{.Dir}}_${TRAVIS_TAG}_{{.OS}}_{{.Arch}}" \
+      -ldflags " \
+        -X github.com/prometheus/common/version.Revision=${TRAVIS_COMMIT} \
+        -X github.com/prometheus/common/version.Version=${TRAVIS_TAG} \
+        -X github.com/prometheus/common/version.Branch=${TRAVIS_BRANCH} \
+        -X github.com/prometheus/common/version.BuildDate=$(date +'%Y-%m-%d_%H:%M:%S') \
+        -X github.com/prometheus/common/version.BuildUser=${USER} \
+       "
+before_deploy:
+  - cd build
+  - chmod +x ./*
+  - for f in *; do tar -czf $f.tar.gz $f && rm $f; done
+  - cd ..
+
+deploy:
+  provider: releases
+  api_key:
+    secure: BD5nnWULeTzdhYAfPlpy2xciMwVSjGdiaIjC98CjWiaWSsrPGqgsZJ7Ojf30XwRajaXRFKvjDb0zDXzNCEfDBt4NzuTGx/Lu+QpeDuNQLdUn2+ibCsHdQMD3RI3qiy7NjyCXvgdEiloPWsJ6HM3cYB8Jx0FwqUJ4dzyRKdAUvR6k3mKfly5blh2SMIorJRLWJwvkvOsn4UjckhPutFNOuSF7RJB1DbUkQ6xLhaJg+DKWnQRD9t2rMWEuvTdI7g6GEZwKR41SmkRyaWwBGlNIllRTBSGdA0nIT6Dr3vYvCv94RccYuWfz4kXJQVsIxcOu0lKcJFoW1EQiWYY1ExUKmzx/xo4akb4sphnIgQmMubmHflxYsGLl+KMzDfAebrgy8f3fpW2/ZhGbjxqC1GV7VfN8xuIZZni84B/nWlOW+7x1icDWzESFL8pkV0Mk8MKhH2g9D46jYuY/RkXLB/sNgU2DnmHDJtRsp0xGiz6H4qwl/VO8GHpZ3NS6IHLS5ehKtTRJ/xyTE6PINuOFj6UHxNd/UYEJcLDgen6oLWcn2g43VC+F5nSBM805szszaNr9OQ/5MdR07uIOVVnKorXMWVkFM4IbHkDIcbwdKRrOdvUC+9WIJ8aILSGkIdaQh91LwcXygiLzgsLN8vRVoOCIllMXi/hGlFMZlaRz/EXMbKE=
+  file_glob: true
+  file: build/*
+  skip_cleanup: true
+  draft: true
+  on:
+    tags: true
+    repo: xxxcoltxxx/stream-telecom-balance-exporter
