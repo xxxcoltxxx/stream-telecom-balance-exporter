@@ -34,7 +34,7 @@ You must set environment variables:
 docker run \
     -e STREAM_TELECOM_LOGIN=<your-login> \
     -e STREAM_TELECOM_PASSWORD=<your-password> \
-    -p 9601:9601 \
+    -p 9602:9602 \
     --restart=unless-stopped \
     --name stream-telecom-balance-exporter \
     -d \
@@ -56,7 +56,7 @@ services:
       STREAM_TELECOM_LOGIN: <your-login>
       STREAM_TELECOM_PASSWORD: <your-password>
     ports:
-      - 9601:9601
+      - 9602:9602
 ```
 
 Run exporter:
