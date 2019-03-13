@@ -73,7 +73,7 @@ docker-compose logs -f stream-telecom-balance-exporter
 
 Set variables you need:
 ```sh
-STREAM_TELECOM_EXPORTER_VERSION=v0.1.0-beta.1
+STREAM_TELECOM_EXPORTER_VERSION=v0.1.0-beta.2
 STREAM_TELECOM_EXPORTER_PLATFORM=linux
 STREAM_TELECOM_EXPORTER_ARCH=amd64
 STREAM_TELECOM_LOGIN=<your_login>
